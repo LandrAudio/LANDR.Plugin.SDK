@@ -2,7 +2,9 @@
 
 The purpose of the LANDR SDK is to provide software licensing capability through a simple interface. This is achieved via a single `LANDR` class, which is expected to be kept in memory for the lifetime of the plugin.
 
-**Disclaimer**: This solution provides *licensing only*. It does NOT provide any form of copy protection.
+> [!WARNING]
+> This solution provides *licensing only*. It does NOT provide any form of copy protection.
+
 # Example
 
 ```cpp
@@ -14,7 +16,7 @@ landr.loadLicense();
 
 if (!landr.licenseIsValid())
 {
-    // If the license is not valid, attempt to activate with user-provided key
+    // If the license is not valid, attempt to activate it with a user-provided key
     landr.activateWithKey("1234");
 }
 
@@ -33,14 +35,14 @@ else
 }
 ```
 
-If license state changes internally, for example the license is revoked during the lifetime of the `LANDR` object, the new state will be reflected in the next call to `licenseIsValid()`.
+If the license state changes internally, for example, if the license is revoked during the lifetime of the `LANDR` object, the new state will be reflected in the next call to `licenseIsValid().
 
 
 # Advanced Usage
 
-In addition to license activation, and checking status, the SDK provides the facility to dynamically generate status information to populate a UI. 
+In addition to license activation, and checking status, the SDK provides the option to generate status information for populating a UI dynamically. 
 
-This is achieved via the `StatusInfo` struct. All fields in this struct will be populated based on the current license state, and may also be empty.
+This is achieved via the `StatusInfo` struct. All fields in this struct will be populated based on the current license state. It may also be empty.
 
 For example:
 
@@ -64,11 +66,9 @@ if (!landr.licenseIsValid())
 }
 ```
 
-The `linkURL` field is populated based on the `pricingUrl` and `helpUrl` fields set in the `ProductInfo` struct passed on construction of the `LANDR` object.
-
 # Thread Safety
 
-The LANDR SDK is thread safe. All methods can be called concurrently from multiple threads without issue.
+The LANDR SDK is thread-safe. All methods can be called concurrently from multiple threads without issue.
 
 # Linkage
 
@@ -77,15 +77,19 @@ The LANDR SDK includes two shared libraries that need to be linked.
 - libLANDR: the core LANDR SDK
 - libLANDRConfig: a library containing product-specific configuration
 
+> [!IMPORTANT]
+> These librairies are **not** supplied in this repository. Please contact pluginsdk@landr.com for more information.
+
 ## Mac
 
-Link to `lib/<config>/libLANDR.a`, `lib/<config>/libLANDRConfig.a`
+Link to `LANDR_SDK/lib/macos/libLANDR.a`, `config_<product>/macos/libLANDRConfig.a`
 
 ## Windows
 
-Link to `lib/<config>/LANDR.lib`, `lib/<config>LANDRConfig.lib`
+Link to `LANDR_SDK/lib/windows/LANDR.lib`, `config_<product>/windows/LANDRConfig.lib`
 
 # Minimum system requirements
 - **C++ Standard**: 17
+- **CMake**: 3.26
 - **macOS**: 10.14
 - **Windows**: Windows 10
