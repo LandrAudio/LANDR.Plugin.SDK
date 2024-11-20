@@ -132,7 +132,9 @@ void AudioPluginAudioProcessorEditor::updateUI()
         m_processingAudioStatus.setColour(juce::Label::textColourId, juce::Colours::red);
         m_processingAudioStatus.setText("Disabled", juce::dontSendNotification);
     } else {
-        m_status.setText("Success: License is active", juce::dontSendNotification);
+        bool isTrial = processorRef.getLicenser().licenseIsTrial();
+        const std::string statusText = std::string("Success: ") + (isTrial ? "Trial " : "") + "License is active";
+        m_status.setText(statusText, juce::dontSendNotification);
         m_subStatus.setVisible(false);
         m_processingAudioStatus.setColour(juce::Label::textColourId, juce::Colours::green);
         m_processingAudioStatus.setText("Enabled", juce::dontSendNotification);

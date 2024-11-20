@@ -67,6 +67,18 @@ if (!licenser.licenseIsValid())
     dialog.show();
 }
 ```
+# Handling Trials
+The `Licenser` fully supports trial licenses. In order to check for a trial license, simply call the `licenseIsTrial` method.
+
+For example:
+
+```cpp
+if (licenser.licenseIsTrial())
+{
+    // Apply audio watermark
+    // Show banner
+}
+```
 
 # Thread Safety
 
