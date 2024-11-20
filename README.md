@@ -1,6 +1,6 @@
 # LANDR SDK
 
-The purpose of the LANDR SDK is to provide software licensing capability through a simple interface. This is achieved via a single `LANDR` class, which is expected to be kept in memory for the lifetime of the plugin.
+The purpose of the LANDR SDK is to provide software licensing capability through a simple interface. This is achieved via a single `Licenser` class, which is expected to be kept in memory for the lifetime of the plugin.
 
 > [!WARNING]
 > This solution provides *licensing only*. It does NOT provide any form of copy protection.
@@ -8,22 +8,22 @@ The purpose of the LANDR SDK is to provide software licensing capability through
 # Example
 
 ```cpp
-#include "landr/LANDR.h"
+#include "landr/Licenser.h"
 
-LANDR landr;
+landr::Licenser licenser;
 
-landr.loadLicense();
+licenser.loadLicense();
 
-if (!landr.licenseIsValid())
+if (!licenser.licenseIsValid())
 {
     // If the license is not valid, attempt to activate it with a user-provided key
-    landr.activateWithKey("1234");
+    licenser.activateWithKey("1234");
 }
 
-if (!landr.licenseIsValid())
+if (!licenser.licenseIsValid())
 {
     // Optionally provide special handling based on status code
-    switch(landr.getStatusCode())
+    switch(licenser.getStatusCode())
     {
         case landr::Status::Invalid:
         ...
@@ -35,7 +35,9 @@ else
 }
 ```
 
-If the license state changes internally, for example, if the license is revoked during the lifetime of the `LANDR` object, the new state will be reflected in the next call to `licenseIsValid().
+If the license state changes internally, for example, if the license is revoked during the lifetime of the `Licenser` object, the new state will be reflected in the next call to `licenseIsValid()`.
+
+It is safe to call `activateWithKey()` multiple times. The activation count will only be incremented on the first successful call. 
 
 
 # Advanced Usage
@@ -47,9 +49,9 @@ This is achieved via the `StatusInfo` struct. All fields in this struct will be 
 For example:
 
 ```cpp
-if (!landr.licenseIsValid())
+if (!licenser.licenseIsValid())
 {
-    const auto info = landr.getStatusInfo();
+    const auto info = licenser.getStatusInfo();
 
     SomePopupDialog dialog;
     dialog.setTitle(info.titleText);

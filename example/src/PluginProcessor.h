@@ -1,7 +1,7 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
-#include "landr/LANDR.h"
+#include "landr/Licenser.h"
 
 //==============================================================================
 class AudioPluginAudioProcessor final : public juce::AudioProcessor {
@@ -45,12 +45,12 @@ public:
     bool checkLicense();
     bool tryActivateWithKey(const std::string& key);
 
-    LANDR& getLandr() { return m_landr; }
+    landr::Licenser& getLicenser() { return m_landr; }
     juce::AudioProcessorValueTreeState& getParameterTreeState() { return m_parameters; }
 
 private:
     //==============================================================================
-    LANDR m_landr;
+    landr::Licenser m_landr;
 
     juce::AudioProcessorValueTreeState m_parameters;
     std::atomic<float>* m_gainParameter = nullptr;

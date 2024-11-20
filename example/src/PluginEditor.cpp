@@ -64,7 +64,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     m_processingAudioStatus.setJustificationType(juce::Justification::left);
 
     addAndMakeVisible(m_sdkVersion);
-    m_sdkVersion.setText("LANDR SDK Version: " + processorRef.getLandr().getVersion(), juce::dontSendNotification);
+    m_sdkVersion.setText("LANDR SDK Version: " + processorRef.getLicenser().getVersion(), juce::dontSendNotification);
     m_sdkVersion.setJustificationType(juce::Justification::left);
 
     updateUI();
@@ -119,7 +119,7 @@ void AudioPluginAudioProcessorEditor::activateLicense()
 void AudioPluginAudioProcessorEditor::updateUI()
 {
     if (!processorRef.checkLicense()) {
-        auto const status = processorRef.getLandr().getStatusInfo();
+        auto const status = processorRef.getLicenser().getStatusInfo();
         const std::string msg = "Error (" + status.errorSubCode + ") : License not valid";
         m_status.setText(msg, juce::dontSendNotification);
 
