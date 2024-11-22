@@ -27,7 +27,9 @@ target_sources(${PROJECT_NAME}
         "${PROJECT_SOURCE_DIR}/src/PluginProcessor.h"
         "${PROJECT_SOURCE_DIR}/src/PluginProcessor.cpp")
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${LANDR_SDK_DIR})
+set(LANDR_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../landr")
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${LANDR_HEADERS_DIR})
 
 target_compile_definitions(${PROJECT_NAME}
     PUBLIC
