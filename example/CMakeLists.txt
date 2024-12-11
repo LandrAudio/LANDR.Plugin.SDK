@@ -48,22 +48,21 @@ if (NOT TARGET LANDR)
         NAMES LANDR 
         HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../lib
         PATH_SUFFIXES macos windows
+        REQUIRED
     )
 else()
     set(LIB_LANDR LANDR)
 endif()
 
-if (WITH_CONFIG)
-    if (NOT TARGET LANDRConfig)
-
-        find_library(LIB_LANDR_CONFIG
-            NAMES LANDRConfig 
-            HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../config_example
-            PATH_SUFFIXES macos windows
-        )
-    else()
-        set(LIB_LANDR_CONFIG LANDRConfig)
-    endif()
+if (DEFINED WITH_CONFIG)
+    set(LIB_LANDR_CONFIG LANDRConfig)
+else()
+    find_library(LIB_LANDR_CONFIG
+        NAMES LANDRConfig 
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../config_example
+        PATH_SUFFIXES macos windows
+        REQUIRED
+    )
 endif()
 
 if (APPLE)
