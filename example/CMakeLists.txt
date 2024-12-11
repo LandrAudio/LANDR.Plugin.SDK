@@ -1,6 +1,10 @@
+cmake_minimum_required(VERSION 3.26)
+
 set(PROJECT_NAME LANDR_SDK_EXAMPLE)
 set(PLUGIN_NAME "LANDR SDK Example")
 project(${PROJECT_NAME} VERSION 1.0.0)
+
+Include(FetchContent)
 
 # Fetch JUCE
 FetchContent_Declare(
@@ -38,12 +42,45 @@ target_compile_definitions(${PROJECT_NAME}
         JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_plugin` call
         JUCE_VST3_CAN_REPLACE_VST2=0)
 
+# Use the presence of the target to determine whether we're doing an in-tree build
+if (NOT TARGET LANDR)
+    find_library(LIB_LANDR
+        NAMES LANDR 
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+        PATH_SUFFIXES macos windows
+    )
+else()
+    set(LIB_LANDR LANDR)
+endif()
+
+if (WITH_CONFIG)
+    if (NOT TARGET LANDRConfig)
+
+        find_library(LIB_LANDR_CONFIG
+            NAMES LANDRConfig 
+            HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../config_example
+            PATH_SUFFIXES macos windows
+        )
+    else()
+        set(LIB_LANDR_CONFIG LANDRConfig)
+    endif()
+endif()
+
+if (APPLE)
+    find_library(LIB_SYSTEM_CONFIGURATION SystemConfiguration)
+    if (NOT LIB_SYSTEM_CONFIGURATION)
+        message(FATAL_ERROR "SystemConfiguration framework not found")
+    endif()
+endif()
+
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         juce::juce_audio_utils
+        ${LIB_SYSTEM_CONFIGURATION}
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
-        LANDRConfig
-        LANDR)
+        ${LIB_LANDR}
+        ${LIB_LANDR_CONFIG}
+    )
