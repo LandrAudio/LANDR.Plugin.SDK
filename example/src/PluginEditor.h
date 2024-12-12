@@ -14,6 +14,7 @@ public:
 
 private:
     void activateLicense();
+    void resetLicense();
     void updateUI();
 
     // This reference is provided as a quick way for your editor to
@@ -25,6 +26,7 @@ private:
 
     juce::TextEditor m_licenseKeyTextEditor;
     juce::TextButton m_activateLicenseBtn;
+    juce::TextButton m_resetLicenseBtn;
     juce::TextButton m_pasteBtn;
 
     juce::Label m_status;

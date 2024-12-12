@@ -29,6 +29,9 @@ public:
     /// Activate the license
     /// @param key the license key entered by the user
     void activateWithKey(const std::string& key);
+    
+    /// Reset the license state on the local machine
+    void resetActivation();
 
     /// @return the user ID of the user to which the license is allocated
     std::string getUserId() const;

@@ -39,6 +39,11 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     m_activateLicenseBtn.setButtonText("Activate");
     m_activateLicenseBtn.setEnabled(false);
     m_activateLicenseBtn.onClick = [this]() { activateLicense(); };
+    
+    addAndMakeVisible(m_resetLicenseBtn);
+    m_resetLicenseBtn.setButtonText("Reset");
+    m_resetLicenseBtn.setEnabled(true);
+    m_resetLicenseBtn.onClick = [this]() { resetLicense(); };
 
     addAndMakeVisible(m_status);
     m_status.setText("Status: ", juce::dontSendNotification);
@@ -92,7 +97,9 @@ void AudioPluginAudioProcessorEditor::resized()
     licenseKeyBounds.removeFromLeft(20);
     m_pasteBtn.setBounds(licenseKeyBounds.removeFromLeft(80));
     licenseKeyBounds.removeFromLeft(20);
-    m_activateLicenseBtn.setBounds(licenseKeyBounds);
+    m_activateLicenseBtn.setBounds(licenseKeyBounds.removeFromLeft(80));
+    licenseKeyBounds.removeFromLeft(20);
+    m_resetLicenseBtn.setBounds(licenseKeyBounds);
 
     m_status.setBounds(bounds.removeFromTop(40));
     m_subStatus.setBounds(bounds.removeFromTop(40));
@@ -113,6 +120,12 @@ void AudioPluginAudioProcessorEditor::resized()
 void AudioPluginAudioProcessorEditor::activateLicense()
 {
     processorRef.tryActivateWithKey(m_licenseKeyTextEditor.getText().toStdString());
+    updateUI();
+}
+
+void AudioPluginAudioProcessorEditor::resetLicense()
+{
+    processorRef.getLicenser().resetActivation();
     updateUI();
 }
 
