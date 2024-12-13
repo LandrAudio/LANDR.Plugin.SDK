@@ -97,13 +97,22 @@ The LANDR SDK includes two shared libraries that need to be linked.
 
 ## Mac
 
-Link to `LANDR_SDK/lib/macos/libLANDR.a`, `config_<product>/macos/libLANDRConfig.a`.
-Additionally link to the `SystemConfiguration` framework.
+Link to the following libraries:
+- `LANDR_SDK/lib/macos/libLANDR.a` 
+- `config_<product>/macos/libLANDRConfig.a`
+- `SystemConfiguration` framework
+- `AppKit` framework
 
 ## Windows
 
-Link to `LANDR_SDK/lib/windows/LANDR.lib`, `config_<product>/windows/LANDRConfig.lib`.
-Additionally Link the `winhttp` and `Crypt32` libraries and set the `/MT` flag to link the static Windows runtime.
+Link to the following libraries:
+- `LANDR_SDK/lib/windows/LANDR.lib` 
+- `config_<product>/windows/LANDRConfig.lib`
+- `winhttp` 
+- `Crypt32`
+- `wininet.lib` 
+
+Set the `/MT` flag to link the static Windows runtime.
 
 # Minimum system requirements
 - **C++ Standard**: 17
