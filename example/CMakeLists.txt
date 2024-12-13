@@ -14,8 +14,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(JUCE)
 
-if(MSVC)
-    add_compile_options(/MT)
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE INTERNAL "")
+    if (MSVC)
+        add_link_options(/ignore:4099)
+    endif()
 endif()
 
 juce_add_plugin(${PROJECT_NAME}
