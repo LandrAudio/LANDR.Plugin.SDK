@@ -18,21 +18,7 @@ std::string wrapText(const std::string& text, int labelWidth) {
     return wrappedText.str();
 }
 
-int main(int argc, char* argv[])
-{
-    if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " <license key>" << std::endl;
-        return 1;
-    }
-    
-    const std::string& licenseKey = argv[1];
-    
-    landr::Licenser licenser;
-    licenser.resetActivation();
-    
-    licenser.activateWithKey(licenseKey);
-    const auto statusInfo = licenser.getStatusInfo();
-    
+void dumpInfo(const landr::StatusInfo& statusInfo) {
     constexpr int labelWidth = 16;
     std::ostringstream output;
     output << "\nLicense Status:\n"
@@ -44,6 +30,22 @@ int main(int argc, char* argv[])
         << std::setw(labelWidth) << " Error Subcode: " << statusInfo.errorSubCode << "\n";
     
     std::cout << output.str();
+}
+
+int main(int argc, char* argv[])
+{
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " <license key>" << std::endl;
+        return 1;
+    }
+    
+    const std::string& licenseKey = argv[1];
+    landr::Licenser licenser;
+    
+    licenser.resetActivation();
+    licenser.activateWithKey(licenseKey);
+    
+    dumpInfo(licenser.getStatusInfo());
 
     return 0;
 }

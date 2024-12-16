@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 set(PROJECT_NAME LANDR_SDK_CLI_EXAMPLE)
 project(${PROJECT_NAME} VERSION 1.0.0)
-set(TARGET_NAME "landrsdk-example")
+set(TARGET_NAME "licenser")
 
 set(LANDR_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../landr")
 

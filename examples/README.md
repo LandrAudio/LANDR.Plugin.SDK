@@ -12,7 +12,7 @@ Simply run the following from the command line
 
 ```
 cd /path/to/built/application
-./LANDR_SDK_CLI_EXAMPLE <license key>
+./licenser <license key>
 ```
 
 This will return information about the license supplied with the `<license key>` parameter.
