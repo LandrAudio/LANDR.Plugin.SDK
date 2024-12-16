@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(PROJECT_NAME LANDR_SDK_EXAMPLE)
-set(PLUGIN_NAME "LANDR SDK Example")
+set(PROJECT_NAME LANDR_SDK_PLUGIN_EXAMPLE)
+set(PLUGIN_NAME "LANDR SDK Plugin Example")
 project(${PROJECT_NAME} VERSION 1.0.0)
 
 Include(FetchContent)
@@ -38,7 +38,7 @@ target_sources(${PROJECT_NAME}
         "${PROJECT_SOURCE_DIR}/src/PluginProcessor.h"
         "${PROJECT_SOURCE_DIR}/src/PluginProcessor.cpp")
 
-set(LANDR_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../landr")
+set(LANDR_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../landr")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LANDR_HEADERS_DIR})
 
@@ -69,9 +69,12 @@ endif()
 if (DEFINED WITH_CONFIG)
     set(LIB_LANDR_CONFIG LANDRConfig)
 else()
-    # Get the first config file we find
-    file(GLOB LIB_LANDR_CONFIGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/../../config*/${LIB_SUBPATH}/*)
-    list(GET LIB_LANDR_CONFIGS 0 LIB_LANDR_CONFIG)
+    find_library(LIB_LANDR_CONFIG
+        NAMES LANDRConfig
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../config_example
+        PATH_SUFFIXES ${LIB_SUBPATH}
+        REQUIRED
+    )
 endif()
 
 if (APPLE)
