@@ -16,7 +16,7 @@ endif()
 if (NOT TARGET LANDR)
     find_library(LIB_LANDR
         NAMES LANDR
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
         PATH_SUFFIXES ${LIB_SUBPATH}
         REQUIRED
     )
@@ -29,18 +29,14 @@ if (DEFINED WITH_CONFIG)
 else()
     find_library(LIB_LANDR_CONFIG
         NAMES LANDRConfig
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../config_example
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../../config_example
         PATH_SUFFIXES ${LIB_SUBPATH}
         REQUIRED
     )
 endif()
 
 if (APPLE)
-    find_library(LIB_SYSTEM_CONFIGURATION SystemConfiguration)
-    if (NOT LIB_SYSTEM_CONFIGURATION)
-        message(FATAL_ERROR "SystemConfiguration framework not found")
-    endif()
-    set(MAC_LIBS "-framework AppKit")
+    set(MAC_LIBS "-framework AppKit -framework Security -framework SystemConfiguration")
 else()
     set(WIN_LIBS winhttp Crypt32 wininet.lib)
 endif()
@@ -51,11 +47,10 @@ target_include_directories(${TARGET_NAME} PUBLIC ${LANDR_HEADERS_DIR})
 
 target_link_libraries(${TARGET_NAME}
     PRIVATE
-        ${LIB_SYSTEM_CONFIGURATION}
         ${WIN_LIBS}
         ${MAC_LIBS}
     PUBLIC
         ${LIB_LANDR}
         ${LIB_LANDR_CONFIG}
     )
-    
+ 

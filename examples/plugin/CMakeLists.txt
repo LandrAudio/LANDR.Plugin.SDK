@@ -58,7 +58,7 @@ endif()
 if (NOT TARGET LANDR)
     find_library(LIB_LANDR
         NAMES LANDR
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
         PATH_SUFFIXES ${LIB_SUBPATH}
         REQUIRED
     )
@@ -70,15 +70,12 @@ if (DEFINED WITH_CONFIG)
     set(LIB_LANDR_CONFIG LANDRConfig)
 else()
     # Get the first config file we find
-    file(GLOB LIB_LANDR_CONFIGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/../../config*/${LIB_SUBPATH}/*)
+    file(GLOB LIB_LANDR_CONFIGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/../../../config*/${LIB_SUBPATH}/*)
     list(GET LIB_LANDR_CONFIGS 0 LIB_LANDR_CONFIG)
 endif()
 
 if (APPLE)
-    find_library(LIB_SYSTEM_CONFIGURATION SystemConfiguration)
-    if (NOT LIB_SYSTEM_CONFIGURATION)
-        message(FATAL_ERROR "SystemConfiguration framework not found")
-    endif()
+    set(MAC_LIBS "-framework SystemConfiguration")
 else()
     set(WIN_LIBS winhttp Crypt32)
 endif()
@@ -86,8 +83,8 @@ endif()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         juce::juce_audio_utils
-        ${LIB_SYSTEM_CONFIGURATION}
         ${WIN_LIBS}
+        ${MAC_LIBS}
     PUBLIC
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags

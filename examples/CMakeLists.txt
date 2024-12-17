@@ -1,7 +1,5 @@
-if (WITH_CLI_EXAMPLE)
-add_subdirectory(commandline)
-endif()
+cmake_minimum_required(VERSION 3.26)
+project(LANDR_SDK_PLUGIN_EXAMPLES VERSION 1.0.0)
 
-if (WITH_JUCE_EXAMPLE)
+add_subdirectory(commandline)
 add_subdirectory(plugin)
-endif()
