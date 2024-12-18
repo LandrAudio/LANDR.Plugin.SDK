@@ -8,18 +8,18 @@ std::string wrapText(const std::string& text, int labelWidth) {
     std::istringstream lines(text);
     std::string line;
     std::string indentation(labelWidth, ' ');
-    
+
     if (std::getline(lines, line))
         wrappedText << line;
-    
+
     while(std::getline(lines, line))
         wrappedText << "\n" << indentation << line;
-    
+
     return wrappedText.str();
 }
 
 void dumpInfo(const landr::StatusInfo& statusInfo) {
-    constexpr int labelWidth = 16;
+    const int labelWidth = 16;
     std::ostringstream output;
     output << "\nLicense Status:\n"
         << "-----------------\n"
@@ -28,7 +28,7 @@ void dumpInfo(const landr::StatusInfo& statusInfo) {
         << std::setw(labelWidth) << " Link Text: " << wrapText(statusInfo.linkText, labelWidth) << "\n"
         << std::setw(labelWidth) << " Link URL: " << statusInfo.linkURL << "\n"
         << std::setw(labelWidth) << " Error Subcode: " << statusInfo.errorSubCode << "\n";
-    
+
     std::cout << output.str();
 }
 
@@ -38,13 +38,13 @@ int main(int argc, char* argv[])
         std::cout << "Usage: " << argv[0] << " <license key>" << std::endl;
         return 1;
     }
-    
+
     const std::string& licenseKey = argv[1];
     landr::Licenser licenser;
-    
+
     licenser.resetActivation();
     licenser.activateWithKey(licenseKey);
-    
+
     dumpInfo(licenser.getStatusInfo());
 
     return 0;

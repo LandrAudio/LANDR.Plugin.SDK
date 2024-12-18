@@ -12,6 +12,13 @@ else()
     set(LIB_SUBPATH windows)
 endif()
 
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE INTERNAL "")
+    if (MSVC)
+        add_link_options(/ignore:4099)
+    endif()
+endif()
+
 # Use the presence of the target to determine whether we're doing an in-tree build
 if (NOT TARGET LANDR)
     find_library(LIB_LANDR
@@ -38,7 +45,7 @@ endif()
 if (APPLE)
     set(MAC_LIBS "-framework AppKit -framework Security -framework SystemConfiguration")
 else()
-    set(WIN_LIBS winhttp Crypt32 wininet.lib)
+    set(WIN_LIBS winhttp Crypt32 wininet Ws2_32)
 endif()
 
 add_executable(${TARGET_NAME} "${PROJECT_SOURCE_DIR}/main.cpp")
