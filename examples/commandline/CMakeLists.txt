@@ -34,12 +34,9 @@ endif()
 if (DEFINED WITH_CONFIG)
     set(LIB_LANDR_CONFIG LANDRConfig)
 else()
-    find_library(LIB_LANDR_CONFIG
-        NAMES LANDRConfig
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../../config_example
-        PATH_SUFFIXES ${LIB_SUBPATH}
-        REQUIRED
-    )
+    # Get the first config file we find
+    file(GLOB LIB_LANDR_CONFIGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/../../../config*/${LIB_SUBPATH}/*)
+    list(GET LIB_LANDR_CONFIGS 0 LIB_LANDR_CONFIG)
 endif()
 
 if (APPLE)
@@ -60,4 +57,4 @@ target_link_libraries(${TARGET_NAME}
         ${LIB_LANDR}
         ${LIB_LANDR_CONFIG}
     )
- 
+
