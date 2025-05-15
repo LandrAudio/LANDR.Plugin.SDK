@@ -13,7 +13,6 @@ else()
 endif()
 
 if(WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE INTERNAL "")
     if (MSVC)
         add_link_options(/ignore:4099)
     endif()
@@ -21,12 +20,31 @@ endif()
 
 # Use the presence of the target to determine whether we're doing an in-tree build
 if (NOT TARGET LANDR)
-    find_library(LIB_LANDR
-        NAMES LANDR
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
-        PATH_SUFFIXES ${LIB_SUBPATH}
-        REQUIRED
-    )
+    if (WIN32)
+        set(LIB_LANDR "")
+        foreach(config ${CMAKE_CONFIGURATION_TYPES})
+            if(config STREQUAL "Debug")
+                set(LIB_SUFFIX "MDd")
+            else()
+                set(LIB_SUFFIX "MD")
+            endif()
+
+            find_library(LIB_LANDR_${config}
+                NAMES LANDR_${LIB_SUFFIX}
+                HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+                PATH_SUFFIXES ${LIB_SUBPATH}
+                REQUIRED
+                )
+            list(APPEND LIB_LANDR "$<$<CONFIG:${config}>:${LIB_LANDR_${config}}>")
+        endforeach()
+    else()
+        find_library(LIB_LANDR
+            NAMES LANDR
+            HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+            PATH_SUFFIXES ${LIB_SUBPATH}
+            REQUIRED
+            )
+    endif()
 else()
     set(LIB_LANDR LANDR)
 endif()
@@ -34,9 +52,15 @@ endif()
 if (DEFINED WITH_CONFIG)
     set(LIB_LANDR_CONFIG LANDRConfig)
 else()
-    # Get the first config file we find
-    file(GLOB LIB_LANDR_CONFIGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/../../../config*/${LIB_SUBPATH}/*)
-    list(GET LIB_LANDR_CONFIGS 0 LIB_LANDR_CONFIG)
+    # Find the first config directory
+    file(GLOB LIB_LANDR_CONFIG_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../../../config*/${LIB_SUBPATH})
+    list(GET LIB_LANDR_CONFIG_DIRS 0 LIB_LANDR_CONFIG_DIR)
+
+    if (WIN32)
+        set(LIB_LANDR_CONFIG "${LIB_LANDR_CONFIG_DIR}/LANDRConfig_MD$<$<CONFIG:DEBUG>:d>.lib")
+    else()
+        set(LIB_LANDR_CONFIG "${LIB_LANDR_CONFIG_DIR}/libLANDRConfig.a")
+    endif()
 endif()
 
 if (APPLE)

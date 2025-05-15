@@ -37,12 +37,12 @@ else
 
 If the license state changes internally, for example, if the license is revoked during the lifetime of the `Licenser` object, the new state will be reflected in the next call to `licenseIsValid()`.
 
-It is safe to call `activateWithKey()` multiple times. The activation count will only be incremented on the first successful call. 
+It is safe to call `activateWithKey()` multiple times. The activation count will only be incremented on the first successful call.
 
 
 # Advanced Usage
 
-In addition to license activation, and checking status, the SDK provides the option to generate status information for populating a UI dynamically. 
+In addition to license activation, and checking status, the SDK provides the option to generate status information for populating a UI dynamically.
 
 This is achieved via the `StatusInfo` struct. All fields in this struct will be populated based on the current license state. It may also be empty.
 
@@ -98,21 +98,26 @@ The LANDR SDK includes two shared libraries that need to be linked.
 ## Mac
 
 Link to the following libraries:
-- `LANDR_SDK/lib/macos/libLANDR.a` 
+- `LANDR_SDK/lib/macos/libLANDR.a`
 - `config_<product>/macos/libLANDRConfig.a`
 - `SystemConfiguration` framework
 - `AppKit` framework
 
 ## Windows
+Multiple variants of the LANDR SDK are available on windows.
+- `LANDR_MT`: Static multithread
+- `LANDR_MTd`: Static debug multithread
+- `LANDR_MD`: Dynamic multithread
+- `LANDR_MTd`: Dynamic debug multithread
+
+These are available to be linked to depending on which runtime library is needed
 
 Link to the following libraries:
-- `LANDR_SDK/lib/windows/LANDR.lib` 
-- `config_<product>/windows/LANDRConfig.lib`
-- `winhttp` 
+- `LANDR_SDK/lib/windows/LANDR_<variant>.lib`
+- `config_<product>/windows/LANDRConfig_<variant>.lib`
+- `winhttp`
 - `Crypt32`
-- `wininet.lib` 
-
-Set the `/MT` flag to link the static Windows runtime.
+- `wininet.lib`
 
 # Minimum system requirements
 - **C++ Standard**: 17
