@@ -42,6 +42,9 @@ public:
     /// @return the version of landr::Licenser
     std::string getVersion() const;
 
+    /// @return the name of the product being licensed
+    std::string getProductName() const;
+
     /// @return status code of the license for which an activation attempt has been made
     /// @see StatusCode
     landr::StatusCode getStatusCode() const;

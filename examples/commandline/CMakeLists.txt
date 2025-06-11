@@ -63,6 +63,12 @@ else()
     endif()
 endif()
 
+if (CONFIG_LIB_PATH)
+    set(LIB_LANDR_CONFIG "${CONFIG_LIB_PATH}")
+endif()
+
+message(STATUS "Using final config: ${LIB_LANDR_CONFIG}")
+
 if (APPLE)
     set(MAC_LIBS "-framework AppKit -framework Security -framework SystemConfiguration")
 else()

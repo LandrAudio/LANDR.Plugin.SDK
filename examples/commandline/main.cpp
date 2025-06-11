@@ -35,15 +35,21 @@ void dumpInfo(const landr::StatusInfo& statusInfo) {
 int main(int argc, char* argv[])
 {
     if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " <license key>" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <license key | -productname>" << std::endl;
         return 1;
     }
 
-    const std::string& licenseKey = argv[1];
+    const std::string& arg = argv[1];
     landr::Licenser licenser;
 
+    if (arg == "-productname")
+    {
+        std::cout << licenser.getProductName() << std::endl;
+        return 0;
+    }
+
     licenser.resetActivation();
-    licenser.activateWithKey(licenseKey);
+    licenser.activateWithKey(arg);
 
     dumpInfo(licenser.getStatusInfo());
 
