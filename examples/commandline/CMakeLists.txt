@@ -45,6 +45,13 @@ if (NOT TARGET LANDR)
             REQUIRED
             )
     endif()
+
+    include(FetchContent)
+    FetchContent_Declare(nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json
+        GIT_TAG v3.11.3)
+    FetchContent_MakeAvailable(nlohmann_json)
+
 else()
     set(LIB_LANDR LANDR)
 endif()
@@ -83,6 +90,7 @@ target_link_libraries(${TARGET_NAME}
     PRIVATE
         ${WIN_LIBS}
         ${MAC_LIBS}
+        nlohmann_json::nlohmann_json
     PUBLIC
         ${LIB_LANDR}
         ${LIB_LANDR_CONFIG}

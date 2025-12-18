@@ -1,6 +1,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <nlohmann/json.hpp>
 #include "Licenser.h"
 
 std::string wrapText(const std::string& text, int labelWidth) {
@@ -18,18 +19,20 @@ std::string wrapText(const std::string& text, int labelWidth) {
     return wrappedText.str();
 }
 
-void dumpInfo(const landr::StatusInfo& statusInfo) {
-    const int labelWidth = 16;
-    std::ostringstream output;
-    output << "\nLicense Status:\n"
-        << "-----------------\n"
-        << std::setw(labelWidth) << " Title: " << statusInfo.titleText << "\n"
-        << std::setw(labelWidth) << " Message: " << wrapText(statusInfo.message, labelWidth) << "\n"
-        << std::setw(labelWidth) << " Link Text: " << wrapText(statusInfo.linkText, labelWidth) << "\n"
-        << std::setw(labelWidth) << " Link URL: " << statusInfo.linkURL << "\n"
-        << std::setw(labelWidth) << " Error Subcode: " << statusInfo.errorSubCode << "\n";
+void dumpInfo(const landr::Licenser& licenser) {
+    
+    nlohmann::json j;
+    
+    const auto& statusInfo = licenser.getStatusInfo();
+    j["title"] = statusInfo.titleText;
+    j["message"] = statusInfo.message;
+    j["link_text"] = statusInfo.linkText;
+    j["link_url"] = statusInfo.linkURL;
+    j["error_subcode"] = statusInfo.errorSubCode;
+    j["valid_license"] = licenser.licenseIsValid();
+    j["status_code"] = static_cast<int>(licenser.getStatusCode());
 
-    std::cout << output.str();
+    std::cout << j.dump(4) << std::endl;
 }
 
 int main(int argc, char* argv[])
@@ -51,7 +54,7 @@ int main(int argc, char* argv[])
     licenser.resetActivation();
     licenser.activateWithKey(arg);
 
-    dumpInfo(licenser.getStatusInfo());
+    dumpInfo(licenser);
 
     return 0;
 }
