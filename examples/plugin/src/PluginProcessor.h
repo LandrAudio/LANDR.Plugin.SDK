@@ -2,6 +2,7 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "Licenser.h"
+#include "UpdateChecker.h"
 
 //==============================================================================
 class AudioPluginAudioProcessor final : public juce::AudioProcessor {
@@ -45,12 +46,18 @@ public:
     bool checkLicense();
     bool tryActivateWithKey(const std::string& key);
 
+    void startUpdateChecking(int intervalMs = 300000);
+    void stopUpdateChecking();
+    std::optional<landr::UpdateChecker::UpdateInfo> getLatestUpdateInfo() const;
+
     landr::Licenser& getLicenser() { return m_landr; }
+    landr::UpdateChecker& getUpdateChecker() { return m_updateChecker; }
     juce::AudioProcessorValueTreeState& getParameterTreeState() { return m_parameters; }
 
 private:
     //==============================================================================
     landr::Licenser m_landr;
+    landr::UpdateChecker m_updateChecker;
 
     juce::AudioProcessorValueTreeState m_parameters;
     std::atomic<float>* m_gainParameter = nullptr;

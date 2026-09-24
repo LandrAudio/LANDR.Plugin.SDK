@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT name="LANDRSDKPluginExample" companyName="LANDR" version="1.0.0"
+              userNotes="Projucer example for the LANDR SDK. Requires updating the JUCE paths"
+              companyWebsite="https://landr.com" jucerFormatVersion="1" projectType="audioplug"
+              pluginAUIsSandboxSafe="1" pluginManufacturer="JUCE" pluginFormats="buildStandalone,buildVST3"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="1" id="ZWWace"
+              cppLanguageStandard="17" headerPath="../../../../landr">
+  <MAINGROUP id="poFJby" name="LANDRSDKPluginExample">
+    <GROUP id="{8E1D7CFC-676C-E59C-E8B7-2F04FD027FFF}" name="src">
+      <FILE id="WGdWG5" name="PluginEditor.h" compile="1" resource="0" file="src/PluginEditor.h"/>
+      <FILE id="E0NoPK" name="PluginEditor.cpp" compile="1" resource="0"
+            file="src/PluginEditor.cpp"/>
+      <FILE id="EWgVZN" name="PluginProcessor.h" compile="1" resource="0"
+            file="src/PluginProcessor.h"/>
+      <FILE id="rvF2Tc" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="src/PluginProcessor.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors_headless" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" externalLibraries="LANDR&#10;LANDRConfig"
+               extraFrameworks="SystemConfiguration">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LANDRSDKPluginExample"
+                       libraryPath="../../../../lib/macos&#10;../../../../../config_example/macos"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="LANDRSDKPluginExample"
+                       libraryPath="../../../../lib/macos&#10;../../../../../config_example/macos"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_plugin_client" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_dsp" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../../../Documents/git/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2019 targetFolder="Builds/VisualStudio2019">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LANDRSDKPluginExample"
+                       extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MDd.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MDd.lib"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="LANDRSDKPluginExample"
+                       extraCompilerFlags="&#10;" extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MD.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MD.lib"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_plugin_client" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_dsp" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../../../Documents/git/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2019>
+    <VS2022 targetFolder="Builds/VisualStudio2022" externalLibraries="winhttp.lib&#10;Crypt32.lib">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="LANDRSDKPluginExample" extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MDd.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MDd.lib"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="LANDRSDKPluginExample"
+                       extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MD.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MD.lib"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_plugin_client" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../../../Documents/git/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+    <VS2026 targetFolder="Builds/VisualStudio2026">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="LANDRSDKPluginExample" extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MDd.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MDd.lib"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="LANDRSDKPluginExample"
+                       extraLinkerFlags="/LIBPATH:../../../../lib/windows LANDR_MD.lib&#10;/LIBPATH:../../../../../config_example/windows LANDRConfig_MD.lib"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_plugin_client" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../../../Documents/git/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2026>
+  </EXPORTFORMATS>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0"/>
+</JUCERPROJECT>

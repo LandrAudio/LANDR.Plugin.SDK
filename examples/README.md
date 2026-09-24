@@ -12,7 +12,7 @@ Simply run the following from the command line
 
 ```
 cd /path/to/built/application
-./licenser <license key>
+./landr-cli <license key>
 ```
 
 This will return information about the license supplied with the `<license key>` parameter.
@@ -27,6 +27,16 @@ License Status:
       Link URL: https://www.landr.com/pricing
  Error Subcode: C53
 ```
+
+To check for a newer release, pass `-versioninfo` with the plugin version to compare
+against. Without an argument it uses 1.0.0, which is a placeholder: a real integration
+passes its own plugin version, not the SDK version.
+
+```
+./landr-cli -versioninfo 0.0.0
+```
+
+The version file URL comes from the product config.
 
 ## JUCE Plugin
 ### Installation

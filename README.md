@@ -81,6 +81,83 @@ if (licenser.licenseIsTrial())
 }
 ```
 
+# Checking for Updates
+
+The SDK includes an `UpdateChecker` class that periodically polls a remote JSON file to check for available updates. It runs in a background thread and detects both regular updates and forced updates (when a minimum supported version is specified).
+
+## Basic Usage
+
+```cpp
+#include "landr/UpdateChecker.h"
+
+// Create an UpdateChecker with your current version
+// The version file URL is obtained from your Config::getVersionURL()
+landr::UpdateChecker updateChecker("1.2.3");
+
+// Start checking for updates every 5 minutes (300000 ms)
+updateChecker.startChecking(300000);
+
+// Later, check if an update is available
+if (updateChecker.hasNewVersion()) {
+    const auto info = updateChecker.getUpdateInfo();
+    if (info) {
+        std::cout << "New version available: " << info->version << std::endl;
+        std::cout << "Download: " << info->downloadLink << std::endl;
+
+        if (info->forceUpdate) {
+            // A new minimum supported version is required
+            // Handle forced update in your UI
+        }
+    }
+}
+
+// Stop checking when done
+updateChecker.stopChecking();
+```
+
+## version.json Format
+
+The remote JSON file must follow this structure:
+
+```json
+{
+  "versionUrl": "https://plugins-dev.landr.com/version/sampler",
+  "macOS": {
+    "version": "1.45.11",
+    "url": "https://example.com/downloads/macOS/installer.pkg",
+    "releaseNotesUrl": "https://example.com/release-notes",
+    "minimumSupportedVersion": "1.20.0"
+  },
+  "windows": {
+    "version": "1.45.11",
+    "url": "https://example.com/downloads/windows/installer.msi",
+    "releaseNotesUrl": "https://example.com/release-notes",
+    "minimumSupportedVersion": "1.20.0"
+  }
+}
+```
+
+### Top-level Fields
+- `versionUrl`: Optional field describing the version endpoint (for server documentation; ignored by the SDK)
+
+### Per-OS Fields
+- Top-level keys: per-OS sections (`macOS` and `windows`)
+- `version`: semantic version string (format: `major.minor.patch`) — **Required**
+- `url`: URL to the installer for that OS — **Required**
+- `releaseNotesUrl`: URL to release notes — Optional, treated as empty if missing
+- `minimumSupportedVersion`: semantic version string. If the current version is lower than this, the update is considered forced — Optional
+
+### Notes
+- If `releaseNotesUrl` is missing, it is treated as empty.
+- If `minimumSupportedVersion` is missing, `forceUpdate` is false.
+- The OS key names are fixed by the platform (automatically detected as `macOS` or `windows`).
+
+## Forced Updates
+
+If `minimumSupportedVersion` is specified in the JSON and the current version is lower, the `forceUpdate` flag in `UpdateInfo` will be set to `true`. This allows you to implement a mandatory update flow in your plugin UI.
+
+The `UpdateChecker` only reports the flag—it does not enforce the update or block functionality. Your plugin must handle the forced update behavior.
+
 # Thread Safety
 
 The LANDR SDK is thread-safe. All methods can be called concurrently from multiple threads without issue.
