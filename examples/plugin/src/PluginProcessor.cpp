@@ -11,21 +11,16 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
               )
-    , m_updateChecker("1.0.0")
     , m_parameters(*this, nullptr, juce::Identifier("PARAMETERS"), { std::make_unique<juce::AudioParameterFloat>("gain", "Gain", 0.0f, 1.0f, 0.5f) })
 {
     m_landr.loadLicense();
     checkLicense();
 
     m_gainParameter = m_parameters.getRawParameterValue("gain");
-
-    // Start checking for updates every 5 minutes
-    startUpdateChecking(300000);
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor()
 {
-    stopUpdateChecking();
 }
 
 //==============================================================================
@@ -191,21 +186,6 @@ bool AudioPluginAudioProcessor::tryActivateWithKey(const std::string& key)
 {
     m_landr.activateWithKey(key);
     return checkLicense();
-}
-
-void AudioPluginAudioProcessor::startUpdateChecking(int intervalMs)
-{
-    m_updateChecker.startChecking(intervalMs);
-}
-
-void AudioPluginAudioProcessor::stopUpdateChecking()
-{
-    m_updateChecker.stopChecking();
-}
-
-std::optional<landr::UpdateChecker::UpdateInfo> AudioPluginAudioProcessor::getLatestUpdateInfo() const
-{
-    return m_updateChecker.getUpdateInfo();
 }
 
 //==============================================================================
